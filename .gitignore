@@ -1,0 +1,15 @@
+# Exclure les fichiers et dossiers Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Fichiers système
+.DS_Store
+
+# Clés sensibles
+*.pem
+*.key
+
+# Logs et outputs
+*.log
+*.out
