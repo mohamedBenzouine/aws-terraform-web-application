@@ -26,7 +26,7 @@ resource "aws_subnet" "custom_vpc_public_subnet_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.ENVIRONMENT}_custom_vpc_public_subnet_1"
+    Name = "${var.ENVIRONMENT}-custom_vpc_public_subnet_1"
   }
 }
 
@@ -38,31 +38,29 @@ resource "aws_subnet" "custom_vpc_public_subnet_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "${var.ENVIRONMENT}_custom_vpc_public_subnet_2"
+    Name = "${var.ENVIRONMENT}-custom_vpc_public_subnet_2"
   }
 }
 
 # private Sunbet 1
 resource "aws_subnet" "custom_vpc_private_subnet_1" {
-  vpc_id                  = aws_vpc.custom_vpc.id
-  cidr_block              = var.CUSTOM_VPC_PRIVATE_SUBNET1_CIDR_BLOCK
-  availability_zone       = data.aws_availability_zones.available.names[0]
-  map_public_ip_on_launch = true
+  vpc_id            = aws_vpc.custom_vpc.id
+  cidr_block        = var.CUSTOM_VPC_PRIVATE_SUBNET1_CIDR_BLOCK
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-    Name = "${var.ENVIRONMENT}_custom_vpc_private_subnet_1"
+    Name = "${var.ENVIRONMENT}-custom_vpc_private_subnet_1"
   }
 }
 
 # private Sunbet 2
 resource "aws_subnet" "custom_vpc_private_subnet_2" {
-  vpc_id                  = aws_vpc.custom_vpc.id
-  cidr_block              = var.CUSTOM_VPC_PRIVATE_SUBNET2_CIDR_BLOCK
-  availability_zone       = data.aws_availability_zones.available.names[1]
-  map_public_ip_on_launch = true
+  vpc_id            = aws_vpc.custom_vpc.id
+  cidr_block        = var.CUSTOM_VPC_PRIVATE_SUBNET2_CIDR_BLOCK
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
-    Name = "${var.ENVIRONMENT}_custom_vpc_private_subnet_2"
+    Name = "${var.ENVIRONMENT}-custom_vpc_private_subnet_2"
   }
 }
 
@@ -71,7 +69,7 @@ resource "aws_internet_gateway" "custom_igw" {
   vpc_id = aws_vpc.custom_vpc.id
 
   tags = {
-    Name = "${var.ENVIRONMENT}_custom_vpc_custom_igw"
+    Name = "${var.ENVIRONMENT}-custom_vpc_custom_igw"
   }
 }
 
@@ -87,8 +85,9 @@ resource "aws_nat_gateway" "custom_nat_gtw" {
   allocation_id = aws_eip.custom_eip.id
   subnet_id     = aws_subnet.custom_vpc_public_subnet_1.id
   depends_on    = [aws_internet_gateway.custom_igw]
+
   tags = {
-    Name = "${var.ENVIRONMENT}-custom-vpc-NAT-gateway"
+    Name = "${var.ENVIRONMENT}-custom_vpc_NAT_gateway"
   }
 }
 
@@ -100,6 +99,7 @@ resource "aws_route_table" "rt_public" {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.custom_igw.id
   }
+  
   tags = {
     Name = "${var.ENVIRONMENT}-custom_public_route_table"
   }
@@ -146,25 +146,25 @@ resource "aws_route_table_association" "to_private_subnet2" {
 #Output Specific to Custom VPC
 output "my_vpc_id" {
   description = "VPC ID"
-  value = aws_vpc.custom_vpc.id
+  value       = aws_vpc.custom_vpc.id
 }
 
 output "public_subnet1_id" {
   description = "Subnet ID"
-  value = aws_subnet.custom_vpc_public_subnet_1.id
+  value       = aws_subnet.custom_vpc_public_subnet_1.id
 }
 
 output "public_subnet2_id" {
   description = "Subnet ID"
-  value = aws_subnet.custom_vpc_public_subnet_2.id
+  value       = aws_subnet.custom_vpc_public_subnet_2.id
 }
 
 output "private_subnet1_id" {
   description = "Subnet ID"
-  value = aws_subnet.custom_vpc_private_subnet_1.id
+  value       = aws_subnet.custom_vpc_private_subnet_1.id
 }
 
 output "private_subnet2_id" {
   description = "Subnet ID"
-  value = aws_subnet.custom_vpc_private_subnet_2
+  value       = aws_subnet.custom_vpc_private_subnet_2.id
 }
