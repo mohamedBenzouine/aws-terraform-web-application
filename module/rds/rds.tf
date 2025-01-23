@@ -54,7 +54,7 @@ resource "aws_db_instance" "custom_rds" {
     storage_type = "gp2"
     engine = var.CUSTOM_RDS_ENGINE
     engine_version = var.CUSTOM_RDS_ENGINE_VERSION
-    instance_class = var.CUSTOM_RDS_INSTANCE_CLASS
+    instance_class = var.DB_INSTANCE_CLASS
     backup_retention_period = var.BACKUP_RETENTION_PERIOD
     publicly_accessible = var.PUBLICLY_ACCESSIBLE
     username = var.CUSTOM_RDS_USERNAME
