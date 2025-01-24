@@ -2,6 +2,7 @@
 .terraform/
 *.tfstate
 *.tfstate.backup
+*.tfstate.lock.info
 
 # Fichiers système
 .DS_Store
