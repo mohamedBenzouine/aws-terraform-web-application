@@ -1,16 +1,11 @@
-# Call VPC Module First to get the Subnet IDs
-module "custom_vpc" {
-    
-    source = "../../vpc"
-    ENVIRONMENT = var.ENVIRONMENT
-    AWS_REGION = var.AWS_REGION
-}
-
 #Define Subnet Group for RDS Service
 resource "aws_db_subnet_group" "custom_rds_subnet_group" {
     name = "${var.ENVIRONMENT}-custom-rds-subnet-group"
     description = "Allowed subnet for DB cluster instances"
-    subnet_ids = ["${module.custom_vpc.private_subnet1_id}","${var.custom_vpc.private_subnet2_id}"]
+     subnet_ids    = [
+      "${var.vpc_private_subnet1}",
+      "${var.vpc_private_subnet2}",
+    ]
 
     tags = {
       Name = "${var.ENVIRONMENT}-custom-rds-subnet-group"
@@ -23,17 +18,17 @@ resource "aws_security_group" "custom_rds_sg" {
 
     name = "${var.ENVIRONMENT}-custom-rds-sg"
     description = "Created by "
-    vpc_id = module.custom_vpc.my_vpc_id
+    vpc_id = var.vpc_id
 
 
-    ingress = {
+    ingress {
         from_port = 3306
         to_port = 3306
         protocol = "tcp"
         cidr_blocks = ["${var.RDS_CIDR}"]
         }
 
-    egress = {
+    egress {
         from_port = 0
         to_port = 0
         protocol = "-1"
