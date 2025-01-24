@@ -74,7 +74,7 @@ resource "aws_internet_gateway" "custom_igw" {
 }
 
 # Elastic IP for NAT Gateway
-resource "aws_eip" "custom_eip" {
+resource "aws_eip" "custom_nat_eip" {
   domain     = "vpc"
   depends_on = [aws_internet_gateway.custom_igw]
 }
@@ -82,7 +82,7 @@ resource "aws_eip" "custom_eip" {
 
 # NAT gateway for private IP adresse
 resource "aws_nat_gateway" "custom_nat_gtw" {
-  allocation_id = aws_eip.custom_eip.id
+  allocation_id = aws_eip.custom_nat_eip.id
   subnet_id     = aws_subnet.custom_vpc_public_subnet_1.id
   depends_on    = [aws_internet_gateway.custom_igw]
 

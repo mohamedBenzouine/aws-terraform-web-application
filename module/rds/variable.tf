@@ -31,12 +31,12 @@ variable "CUSTOM_RDS_ENGINE" {
 
 variable "CUSTOM_RDS_ENGINE_VERSION" {
     type = string
-    default = "5.7.44"
+    default = "8.0.36"
 }
 
 variable "DB_INSTANCE_CLASS" {
     type = string
-    default = "db.t2.micro"
+    default = "db.t3.micro"
 }
 
 variable "RDS_CIDR" {
@@ -51,3 +51,20 @@ variable "ENVIRONMENT" {
   default     = "Development"
 }
 
+variable "vpc_private_subnet1" {
+  description = "AWS VPC Environment Name"
+  type        = string
+  default     = ""
+}
+
+variable "vpc_private_subnet2" {
+  description = "AWS VPC Environment Name"
+  type        = string
+  default     = ""
+}
+
+variable "vpc_id" {
+  description = "AWS VPC Environment Name"
+  type        = string
+  default     = ""
+}
